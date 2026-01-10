@@ -54,7 +54,19 @@ const App = () => {
                 <option value="pen">Pen</option>
                 <option value="eraser">Eraser</option>
             </select>
-            <h1>Start Drawing</h1>
+            <select 
+                value={lineColor}
+                onChange={(e: any) => {
+                    setLineColor(e.target.value);
+                }}
+                >
+                <option value="black">Black</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="orange">Orange</option>
+            </select>
+
             <Stage
                 width={width}
                 height={height}
