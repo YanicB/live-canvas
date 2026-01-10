@@ -66,6 +66,18 @@ const App = () => {
                 <option value="green">Green</option>
                 <option value="orange">Orange</option>
             </select>
+            <select 
+                value={lineWidth}
+                onChange={(e: any) => {
+                    setLineWidth(e.target.value);
+                }}
+                >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
 
             <Stage
                 width={width}
