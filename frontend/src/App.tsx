@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Stage, Layer, Line, Text } from 'react-konva';
+import { Stage, Layer, Line } from 'react-konva';
 
 interface LineData {
     tool: string;
@@ -9,6 +9,8 @@ interface LineData {
 const App = () => {
     const [tool, setTool] = useState('pen');
     const [lines, setLines] = useState<LineData[]>([]);
+    const [lineColor, setLineColor] = useState('black');
+    const [lineWidth, setLineWidth] = useState(5)
     const isDrawing = useRef(false);
 
     const width = window.innerWidth;
@@ -68,8 +70,8 @@ const App = () => {
                         <Line 
                             key={i}
                             points={line.points}
-                            stroke="df4b26"
-                            strokeWidth={5}
+                            stroke={lineColor}
+                            strokeWidth={lineWidth}
                             tension={0.5}
                             lineCap="round"
                             lineJoin="round"
