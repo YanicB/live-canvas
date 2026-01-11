@@ -1,9 +1,12 @@
+import type Konva from 'konva';
 import { useState, useRef } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
 
 interface LineData {
     tool: string;
     points: number[];
+    color: string;
+    width: number;
 }
 
 const App = () => {
@@ -16,20 +19,28 @@ const App = () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
-    const handleMouseDown = (e: any) => {
+    const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent> | Konva.KonvaEventObject<TouchEvent>) => {
         isDrawing.current = true;
-        const pos = e.target.getStage().getPointerPosition();
-        setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+        const pos = e.target.getStage()?.getPointerPosition();
+        if (!pos) return;
+
+        setLines([...lines, { 
+            tool,
+            points: [pos.x, pos.y],
+            color: lineColor,
+            width: lineWidth }]);
     };
 
-    const handleMouseMove = (e: any) => {
+    const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent> | Konva.KonvaEventObject<TouchEvent>) => {
         if (!isDrawing.current) {
             return;
         }
 
         const stage = e.target.getStage();
-        const point = stage.getPointerPosition();
+        const point = stage?.getPointerPosition();
         let lastLine = lines[lines.length - 1];
+
+        if (!point) return;
 
         lastLine.points = lastLine.points.concat([point.x, point.y]);
 
@@ -94,8 +105,8 @@ const App = () => {
                         <Line 
                             key={i}
                             points={line.points}
-                            stroke={lineColor}
-                            strokeWidth={lineWidth}
+                            stroke={line.color}
+                            strokeWidth={line.width}
                             tension={0.5}
                             lineCap="round"
                             lineJoin="round"
